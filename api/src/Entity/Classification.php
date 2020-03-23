@@ -64,7 +64,7 @@ class Classification
         return $this;
     }
 
-    public function getClass(): ?int
+    public function getClass(): ?string
     {
         return $this->class;
     }

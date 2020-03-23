@@ -64,7 +64,7 @@ class Family
         return $this;
     }
 
-    public function getFamily(): ?int
+    public function getFamily(): ?string
     {
         return $this->family;
     }

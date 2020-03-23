@@ -52,7 +52,7 @@ class Commodity
         return $this;
     }
 
-    public function getCommodity(): ?int
+    public function getCommodity(): ?string
     {
         return $this->commodity;
     }

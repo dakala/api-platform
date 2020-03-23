@@ -46,7 +46,7 @@ class Segment
         return $this->id;
     }
 
-    public function getSegment(): ?int
+    public function getSegment(): ?string
     {
         return $this->segment;
     }
