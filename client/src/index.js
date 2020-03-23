@@ -14,6 +14,19 @@ import {
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import * as serviceWorker from './serviceWorker';
+
+// import reducers
+import segment from './reducers/segment/';
+import classification from './reducers/classification/';
+import family from './reducers/family/';
+import commodity from './reducers/commodity/';
+
+//import routes
+import segmentRoutes from './routes/segment';
+import classificationRoutes from './routes/classification';
+import familyRoutes from './routes/family';
+import commodityRoutes from './routes/commodity';
+
 // Import your reducers and routes here
 import Welcome from './Welcome';
 
@@ -22,6 +35,10 @@ const store = createStore(
   combineReducers({
     router: connectRouter(history),
     form,
+    segment,
+    classification,
+    family,
+    commodity
     /* Add your reducers here */
   }),
   applyMiddleware(routerMiddleware(history), thunk)
@@ -32,6 +49,10 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <Switch>
         <Route path="/" component={Welcome} strict={true} exact={true}/>
+        { segmentRoutes }
+        { classificationRoutes }
+        { familyRoutes }
+        { commodityRoutes }
         {/* Add your routes here */}
         <Route render={() => <h1>Not Found</h1>} />
       </Switch>
