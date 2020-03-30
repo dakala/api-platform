@@ -1,0 +1,396 @@
+author: Deji Akala <dejiakala@gmail.com>
+
+namespaces:
+    entity: App\Entity\Schema
+    enum: App\Enum\Schema
+    interface: App\Model\Schema
+    
+accessorMethods: true
+
+fluentMutatorMethods: true
+
+#id:
+#    @todo: when Ramsey\Uuid can work.
+#    generate: true
+#    generationStrategy: "none"
+    
+rdfa:
+    - vendor/api-platform/schema-generator/data/schema.rdfa
+    
+types:
+    # An accommodation is a place that can accommodate human beings.
+    Accommodation:
+        properties:
+            # @todo:
+            accommodationCategory: { range: "Text" }
+            amenityFeature: {range: "LocationFeatureSpecification", cardinality: "(0..*)" }
+            floorLevel: { range: "Text" }
+            floorSize: { range: "QuantitativeValue" }
+            numberOfBathroomsTotal:  { range: "Integer" }
+            numberOfRooms: { range: "Integer" }
+            petsAllowed: { range: "Boolean" }
+            permittedUsage: ~ 
+            yearBuilt: { range: "Integer" }
+
+    AdministrativeArea:
+        properties: {}
+    
+    Book:
+        parent: CreativeWork
+        properties:
+            abridged: { range: "Boolean" }
+            bookEdition: ~
+            illustrator: { range: "Person", cardinality: "(0..*)" } 
+            isbn: ~
+            numberOfPages: ~
+
+    CategoryCode:
+        parent: Thing
+        properties:
+            codeValue: { range: "Text" }
+            inCodeSet: { range: "CategoryCodeSet" }
+            inDefinedTermSet: { range: "DefinedTermSet" }
+            termCode: { range: "Text" }
+    
+    # A set of Category Code values.        
+    CategoryCodeSet:
+        parent: Thing
+        properties:
+            hasCategoryCode: { range: "CategoryCode" }
+            hasDefinedTerm: { range: "DefinedTerm" }
+
+    ContactPoint:
+        parent: Thing
+        properties:
+            areaServed: { range: "Text" }
+            contactOption: { range: "ContactPointOption" }
+            contactType: ~
+            email: ~
+            faxNumber: ~
+            hoursAvailable: { range: "OpeningHoursSpecification", cardinality: "(0..*)" } 
+            productSupported: { range: "Text", cardinality: "(0..*)" }
+            telephone: ~
+    
+    ContactPointOption:
+        parent: Enumeration
+        properties: {}
+        
+    Country:
+        parent: AdministrativeArea
+        properties: {}
+
+    # A description of an educational course
+    Course:
+        parent: CreativeWork
+        properties:
+            courseCode: ~
+            coursePrerequisites: { range: "Text" }
+            educationalCredentialAwarded: { range: "EducationalOccupationalCredential" }
+            hasCourseInstance: { range: "CourseInstance", cardinality: "(0..*)" }
+            numberOfCredits: { range: "Integer" }
+            occupationalCredentialAwarded: { range: "EducationalOccupationalCredential" } 
+
+    # An instance of a Course which is distinct from other instances because it
+    # is offered at a different time or location or through different media or 
+    # modes of study or to a specific section of students.
+    CourseInstance:
+        parent: Event
+        properties:
+            #  "online", "onsite" or "blended"; "synchronous" 
+            # or "asynchronous"; "full-time" or "part-time"
+            courseMode: { range: "Text" }
+            # 2 hours of lectures, 1 hour of lab work and 3 hours of independent study per week
+            courseWorkload: { range: "Text" }
+            instructor: { range: "Person", cardinality: "(0..*)" }
+
+    # The most generic kind of creative work, including books, movies, photographs, 
+    # software programs, etc.
+    CreativeWork:
+        properties:
+            about: { range: "Thing" }
+            abstract: { range: "Text" }
+            # Expected values include: auditory, tactile, textual, visual, 
+            # colorDependent, chartOnVisual, chemOnVisual, diagramOnVisual, 
+            # mathOnVisual, musicOnVisual, textOnVisual
+            accessMode: ~
+            author: { range: "Person" }
+            award: ~
+            citation: { range: "CreativeWork" }
+            contentLocation: { range: "Place" }
+            contributor: { range: "Person", cardinality: "(0..*)" }
+            copyrightHolder: { range: "Person", cardinality: "(0..*)" }
+            # @todo:
+            copyrightYear: { range: "Text" }
+            dateCreated: { range: "Date" }
+            dateModified: { range: "Date" }
+            datePublished: { range: "Date" }
+            educationalUse: ~
+            encodingFormat: { range: "Text" }
+            expires: { range: "Date" }
+            genre: { range: "Text" }
+            hasPart: ~
+            inLanguage: { range: "Language" }
+            isBasedOn:  { range: "CreativeWork" } 
+            isFamilyFriendly: ~
+            isPartOf: { range: "CreativeWork" }
+            keywords: ~
+            learningResourceType: ~
+            license:  { range: "CreativeWork" }
+            mainEntity: ~
+            material: { range: "Text" }
+            position: { range: "Integer" }
+            publisher: { range: "Organization" }
+            text: ~
+            # @todo:
+            timeRequired: { range: "Text" }
+            typicalAgeRange: ~
+            version: { range: "Text" }
+            
+    # The day of the week, e.g. used to specify to which day the opening hours 
+    # of an OpeningHoursSpecification refer.
+    DayOfWeek:
+        parent: Enumeration
+        properties: { }
+            
+    
+    # A word, name, acronym, phrase, etc. with a formal definition.   
+    DefinedTerm:
+        parent: Thing
+        properties:
+            inDefinedTermSet: { range: "DefinedTermSet" }
+            termCode: { range: "Text" }
+
+    # A set of defined terms for example a set of categories.
+    DefinedTermSet:
+        parent: Thing
+        properties:
+            hasDefinedTerm: { range: "DefinedTerm" }
+    
+    #  An educational or occupational credential.       
+    EducationalOccupationalCredential:
+        parent: Thing
+        properties:
+            competencyRequired: { range: "Text" }
+            credentialCategory: { range: "Text" }
+            educationalLevel: { range: "Text" }         
+
+    # University, Campus, Faculty, Department
+    EducationalOrganization: 
+        parent: Organization
+        properties: {}
+        
+    # A program offered by an institution.
+    EducationalOccupationalProgram:
+        parent: Thing
+        properties:
+            educationalCredentialAwarded: { range: "EducationalOccupationalCredential" }
+            # todo: ?
+            educationalProgramMode: { range: "Text" }
+            numberOfCredits: { range: "Integer" }
+            programPrerequisites: { range: "Text" }
+            programType: { range: "DefinedTerm" }
+            termDuration: { range: "Integer" }
+            termsPerYear:  { range: "Integer" }
+            timeOfDay: { range: "Text" }
+            timeToComplete: { range: "Integer" }
+            typicalCreditsPerTerm: { range: "Integer" }
+
+
+    # Event type: Education event.    
+    # Class, Lesson, Lecture, Lab, Seminar, Workshop etc.
+    EducationEvent:
+        parent: Event
+        properties: {}
+
+    # Lists or enumerations—for example, a list of cuisines or music genres, etc.
+    Enumeration:
+        parent: false
+        properties: {}
+        
+    # An event happening at a certain time and location.
+    Event:
+        parent: Thing
+        properties:
+            attendees: { range: "Person" }
+            doorTime: { range: "DateTime" }
+            duration: { range: "Integer" }
+            endDate: { range: "DateTime" }
+            eventAttendanceMode: { range: "EventAttendanceModeEnumeration" }
+            eventStatus: { range: "EventStatusType" }
+            inLanguage: { range: "Language" }
+            location: { range: "Place" }
+            startDate: { range: "DateTime" }
+            subEvents: { range: "Event" }
+            superEvent: { range: "Event" }            
+    
+    # An EventAttendanceModeEnumeration value is one of potentially several 
+    # modes of organising an event, relating to whether it is online or 
+    # offline.
+    EventAttendanceModeEnumeration:
+        parent: Enumeration
+        properties: {}
+
+    # EventStatusType is an enumeration type whose instances represent several
+    # states that an Event may be in.
+    EventStatusType:
+        parent: Enumeration
+        properties: {}
+
+    Language:
+        parent: Thing
+        properties: {}
+
+    # Specifies a location feature.
+    LocationFeatureSpecification:
+        parent: PropertyValue
+        properties:
+            hoursAvailable: { range: "OpeningHoursSpecification", cardinality: "(0..*)" }
+            validFrom: { range: "DateTime" }
+            validThrough: { range: "DateTime" }
+        
+    Occupation:
+        parent: Thing
+        properties:
+            experienceRequirements: { range: "Text" }
+            qualifications: { range: "Text" }
+            responsibilities: { range: "Text" }  
+
+    # A structured value providing information about the opening hours of a 
+    # place or a certain service inside a place.
+    OpeningHoursSpecification:
+        parent: Thing
+        properties:
+            closes: ~
+            dayOfWeek: { range: "DayOfWeek" }
+            opens: ~
+            validFrom: { range: "DateTime" }
+            validThrough: { range: "DateTime" }
+
+    Organization:
+        parent: Thing
+        properties:
+            address: { range: "PostalAddress" }
+            alumni: { range: "Person", cardinality: "(0..*)" }
+            award: ~
+            contactPoints: { range: "ContactPoint", cardinality: "(0..*)" }
+            department: { range: "Organization" }
+            dissolutionDate: { range: "Date" }
+            duns: ~
+            email: ~
+            employees: { range: "Person", cardinality: "(0..*)" }
+            ethicsPolicy: { range: "Text" }
+            faxNumber: ~
+            founders: { range: "Person", cardinality: "(0..*)" }
+            foundingDate: { range: "Date" }
+            foundingLocation: { range: "Place" }
+            globalLocationNumber: ~
+            isicV4: ~
+            legalName: ~
+            leiCode: ~
+            location: { range: "PostalAddress" }
+            memberOf: { range: "Organization" }
+            naics: ~
+            numberOfEmployees: { range: "QuantitativeValue" }
+            parentOrganization: { range: "Organization" }
+            slogan: { range: "Text" }
+            subOrganization: { range: "Organization" }
+            taxID: ~
+            telephone: ~
+            vatID: ~
+            
+    Person:
+        properties:
+            additionalName: ~
+            address: { range: "PostalAddress" }
+            alumniOf: { range: "EducationalOrganization" }
+            awards: ~
+            birthDate: ~
+            birthPlace: { range: "Place" }
+            deathDate: ~
+            deathPlace: { range: "Place" }
+            duns: ~
+            email: ~
+            familyName: { nullable: false }
+            faxNumber: ~
+            gender: ~
+            givenName: { nullable: false }
+            hasCredential:  { range: "EducationalOccupationalCredential" }
+            hasOccupation: { range: "Occupation" }
+            height: { range: "QuantitativeValue" }
+            homeLocation: { range: "Place" }
+            honorificPrefix: ~
+            honorificSuffix: ~
+            jobTitle: ~
+            knowsLanguage: { range: "Language" }
+            nationality: { range: "Country" }
+            siblings: { range: "Person", cardinality: "(0..*)" }
+            spouse: { range: "Person" }
+            taxID: ~
+            telephone: ~
+            vatID: ~
+            weight: { range: "QuantitativeValue" }
+
+    Place: 
+        parent: Thing
+        properties:
+            address: { range: "PostalAddress" }
+            latitude: { range: "Text" }
+            longitude: { range: "Text" }
+            additionalProperty: { cardinality: "(0..*)" }
+            branchCode: ~
+            faxNumber: ~
+            globalLocationNumber: ~
+            isicV4: ~
+            telephone: ~
+            
+    PostalAddress:
+        parent: false
+        properties:
+            addressCountry: { range: "Text", nullable: false }
+            addressLocality: ~
+            addressRegion: ~
+            postOfficeBoxNumber: ~
+            postalCode: ~
+            streetAddress: { nullable: false }
+            
+    PropertyValue:
+        parent: Thing
+        properties:
+            maxValue: ~
+            measurementTechnique: { range: "Text" }
+            minValue: ~
+            propertyID: { range: "Text" }
+            unitCode: { range: "Text" }
+            unitText: ~
+            value: { range: "Text" }
+    
+    Room:
+        parent: Accommodation
+        properties: {}
+        
+    QuantitativeValue: 
+        parent: Thing
+        properties:
+            additionalProperty: ~
+            maxValue: ~
+            minValue: ~
+            unitCode: { range: "Text" }
+            unitText: ~
+            value: { range: "Text" }
+
+    # Announcement?
+    SocialEvent:
+        parent: Event
+        properties: {}
+        
+    # Parent class of Person
+    Thing:
+        properties:
+            additionalType: ~
+            alternateName: ~
+            description: ~
+            identifier: { range: "Text" }
+            image: ~
+            name: { nullable: false }
+            sameAs: ~
+            url: ~
