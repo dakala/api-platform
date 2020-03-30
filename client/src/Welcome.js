@@ -16,13 +16,13 @@ const Welcome = () => (
                 rel="noopener noreferrer"
                 href="https://les-tilleuls.coop"
             >
-                <Flag />
+                {/*<Flag />*/}
             </a>
         </header>
         <section className="welcome__main">
             <div className="main__aside">
-                <div className="aside__circle" />
-                <SpiderWelcome />
+                {/*<div className="aside__circle" />*/}
+                {/*<SpiderWelcome />*/}
             </div>
             <div className="main__content">
                 <h1>
@@ -64,19 +64,19 @@ const Welcome = () => (
                 </div>
             </div>
         </section>
-        <div className="welcome__help">
-            <h2>Need help?</h2>
-            <HelpButton
-                url="https://stackoverflow.com/questions/tagged/api-platform.com"
-                Image={Sto}
-                title="Ask your questions on Stack Overflow!"
-            />
-            <HelpButton
-                url="https://api-platform.com/support"
-                Image={Slack}
-                title="Chat with the community on Slack!"
-            />
-        </div>
+        {/*<div className="welcome__help">*/}
+        {/*    <h2>Need help?</h2>*/}
+        {/*    <HelpButton*/}
+        {/*        url="https://stackoverflow.com/questions/tagged/api-platform.com"*/}
+        {/*        Image={Sto}*/}
+        {/*        title="Ask your questions on Stack Overflow!"*/}
+        {/*    />*/}
+        {/*    <HelpButton*/}
+        {/*        url="https://api-platform.com/support"*/}
+        {/*        Image={Slack}*/}
+        {/*        title="Chat with the community on Slack!"*/}
+        {/*    />*/}
+        {/*</div>*/}
     </div>
 );
 
@@ -95,6 +95,14 @@ const HelpButton = ({ Image, url, title }) => (
 export default Welcome;
 
 const Logo = () => (
+  <div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+  </div>
+);
+
+const Logo2 = () => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width={150}
